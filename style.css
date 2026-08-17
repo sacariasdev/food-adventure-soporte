@@ -1,0 +1,345 @@
+:root {
+  --paper: #fff8ed;
+  --butter: #fdecc8;
+  --ink: #2b2320;
+  --ink-soft: #6b5c50;
+  --tomato: #e85c41;
+  --tomato-dark: #c8462f;
+  --mustard: #e8a93e;
+  --avocado: #7c9a46;
+  --counter-bg: #f3e4c8;
+  --line: rgba(43, 35, 32, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Work Sans", sans-serif;
+  color: var(--ink);
+  background-color: var(--counter-bg);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(43, 35, 32, 0.035) 0,
+      rgba(43, 35, 32, 0.035) 2px,
+      transparent 2px,
+      transparent 18px
+    );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+.counter {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* --- Ticket card --- */
+
+.ticket {
+  position: relative;
+  background: var(--paper);
+  border-radius: 6px;
+  padding: 32px 32px 36px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 22px 40px -18px rgba(43, 35, 32, 0.45);
+  transform: rotate(-0.6deg);
+}
+
+.ticket__notch {
+  position: absolute;
+  top: 96px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--counter-bg);
+  box-shadow: inset 0 2px 4px rgba(43, 35, 32, 0.15);
+}
+
+.ticket__notch--left {
+  left: -13px;
+}
+
+.ticket__notch--right {
+  right: -13px;
+}
+
+.ticket__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 2px dashed var(--line);
+}
+
+.eyebrow {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tomato-dark);
+}
+
+.ticket-number {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: var(--butter);
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+
+.ticket__title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1.1;
+  margin: 0 0 8px;
+}
+
+.ticket__subtitle {
+  margin: 0 0 28px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* --- Form --- */
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+input[type="email"],
+textarea {
+  font-family: "Work Sans", sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--butter);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 12px 14px;
+  resize: vertical;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+input[type="email"]::placeholder,
+textarea::placeholder {
+  color: rgba(43, 35, 32, 0.4);
+}
+
+input[type="email"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--tomato);
+  background: var(--paper);
+}
+
+.char-count {
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* --- File upload --- */
+
+.upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.upload__button {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--paper);
+  border: 1.5px dashed var(--ink-soft);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.upload__button:hover {
+  border-color: var(--tomato);
+  color: var(--tomato-dark);
+}
+
+.upload input[type="file"]:focus-visible + .upload__button {
+  outline: 2px solid var(--tomato);
+  outline-offset: 2px;
+}
+
+.upload__filename {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.upload__preview {
+  margin-top: 4px;
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  object-fit: cover;
+}
+
+/* --- Submit button --- */
+
+.stamp-button {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--paper);
+  background: var(--tomato);
+  border: none;
+  border-radius: 8px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transform: rotate(-1deg);
+  box-shadow: 0 6px 0 var(--tomato-dark);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.15s ease;
+}
+
+.stamp-button:hover {
+  transform: rotate(-1deg) translateY(-1px);
+}
+
+.stamp-button:active {
+  transform: rotate(-1deg) translateY(4px);
+  box-shadow: 0 2px 0 var(--tomato-dark);
+}
+
+.stamp-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+  transform: rotate(-1deg);
+  box-shadow: 0 6px 0 var(--tomato-dark);
+}
+
+.stamp-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* --- States --- */
+
+.error-state {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tomato-dark);
+}
+
+.success-state {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.stamp {
+  display: inline-block;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--avocado);
+  border: 3px solid var(--avocado);
+  border-radius: 10px;
+  padding: 8px 20px;
+  transform: rotate(-4deg);
+  animation: stamp-in 0.25s ease-out;
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-4deg) scale(1.4);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-4deg) scale(1);
+  }
+}
+
+.success-text {
+  margin: 20px 0 24px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.ghost-button {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  background: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+
+.ghost-button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.footnote {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .ticket {
+    padding: 26px 20px 30px;
+  }
+  .ticket__title {
+    font-size: 27px;
+  }
+}

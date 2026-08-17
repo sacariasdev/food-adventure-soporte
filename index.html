@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Adventure — Mesa de Soporte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="counter">
+    <main class="ticket" id="ticket">
+      <div class="ticket__notch ticket__notch--left"></div>
+      <div class="ticket__notch ticket__notch--right"></div>
+
+      <header class="ticket__header">
+        <span class="eyebrow">Food Adventure</span>
+        <span class="ticket-number" id="ticketNumber">Pedido #0000</span>
+      </header>
+
+      <h1 class="ticket__title">Mesa de Soporte</h1>
+      <p class="ticket__subtitle">¿Algo se quemó en la cocina? Cuéntanos qué pasó y lo arreglamos.</p>
+
+      <form id="supportForm" class="order-form" novalidate>
+
+        <div class="field">
+          <label for="email">Tu correo</label>
+          <input type="email" id="email" name="email" placeholder="jugador@correo.com" required>
+        </div>
+
+        <div class="field">
+          <label for="description">¿Qué salió mal?</label>
+          <textarea id="description" name="description" rows="5" maxlength="800"
+            placeholder="Describe el error: qué hacías, qué esperabas que pasara y qué pasó en realidad."
+            required></textarea>
+          <span class="char-count" id="charCount">0 / 800</span>
+        </div>
+
+        <div class="field">
+          <label for="photo">Foto del problema (opcional)</label>
+          <div class="upload">
+            <input type="file" id="photo" name="attachment" accept="image/*">
+            <label for="photo" class="upload__button">📎 Adjuntar captura</label>
+            <span class="upload__filename" id="fileName">Ningún archivo seleccionado</span>
+          </div>
+          <img id="preview" class="upload__preview" alt="Vista previa de la captura" hidden>
+        </div>
+
+        <!-- Configuración de envío (FormSubmit) -->
+        <input type="hidden" name="_subject" value="[Food Adventure] Nuevo reporte de soporte">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+
+        <button type="submit" class="stamp-button" id="submitBtn">
+          <span id="submitLabel">Enviar pedido a cocina</span>
+        </button>
+
+        <p class="error-state" id="errorState" hidden>
+          No pudimos enviar tu pedido. Revisa tu conexión e inténtalo de nuevo.
+        </p>
+      </form>
+
+      <div class="success-state" id="successState" hidden>
+        <div class="stamp">¡Enviado!</div>
+        <p class="success-text">
+          Tu pedido <strong id="successNumber">#0000</strong> ya está en la cocina.
+          Te responderemos a tu correo pronto.
+        </p>
+        <button type="button" class="ghost-button" id="resetButton">Enviar otro reporte</button>
+      </div>
+
+    </main>
+
+    <p class="footnote">Food Adventure © 2026 — este formulario envía tu reporte directo a nuestro equipo.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

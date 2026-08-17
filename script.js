@@ -1,16 +1,13 @@
-// Cambia este correo si en algún momento quieres redirigir los reportes a otra dirección.
-const SUPPORT_EMAIL = "sacariasdev@gmail.com";
 const MAX_FILE_SIZE_MB = 5;
 
 const form = document.getElementById("supportForm");
 const submitBtn = document.getElementById("submitBtn");
 const submitLabel = document.getElementById("submitLabel");
 const errorState = document.getElementById("errorState");
-const successState = document.getElementById("successState");
-const resetButton = document.getElementById("resetButton");
 
 const ticketNumberEl = document.getElementById("ticketNumber");
-const successNumberEl = document.getElementById("successNumber");
+const subjectField = document.getElementById("subjectField");
+const nextField = document.getElementById("nextField");
 
 const description = document.getElementById("description");
 const charCount = document.getElementById("charCount");
@@ -20,94 +17,90 @@ const fileName = document.getElementById("fileName");
 const preview = document.getElementById("preview");
 
 // --- Número de pedido, generado al cargar la página ---
+// Se usa para: mostrarlo en pantalla, hacer único el asunto del correo
+// (así Gmail no agrupa varios reportes distintos en un mismo hilo)
+// y pasarlo a la página de agradecimiento.
 function generateTicketNumber() {
-  return String(Math.floor(Math.random() * 9000) + 1000);
+  const timePart = Date.now().toString().slice(-5);
+  return timePart;
 }
 
 const ticketNumber = generateTicketNumber();
-ticketNumberEl.textContent = `Pedido #${ticketNumber}`;
-successNumberEl.textContent = `#${ticketNumber}`;
+
+if (ticketNumberEl) {
+  ticketNumberEl.textContent = `Pedido #${ticketNumber}`;
+}
+
+if (subjectField) {
+  subjectField.value = `[Food Adventure] Soporte #${ticketNumber}`;
+}
+
+if (nextField) {
+  const thanksUrl = new URL("gracias.html", window.location.href);
+  thanksUrl.searchParams.set("pedido", ticketNumber);
+  nextField.value = thanksUrl.href;
+}
 
 // --- Contador de caracteres ---
-description.addEventListener("input", () => {
-  charCount.textContent = `${description.value.length} / 800`;
-});
+if (description) {
+  description.addEventListener("input", () => {
+    charCount.textContent = `${description.value.length} / 800`;
+  });
+}
 
 // --- Vista previa de la foto ---
-photoInput.addEventListener("change", () => {
-  const file = photoInput.files[0];
+if (photoInput) {
+  photoInput.addEventListener("change", () => {
+    const file = photoInput.files[0];
 
-  if (!file) {
-    fileName.textContent = "Ningún archivo seleccionado";
-    preview.hidden = true;
-    preview.removeAttribute("src");
-    return;
-  }
-
-  if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-    showError(`La imagen pesa demasiado. El límite es ${MAX_FILE_SIZE_MB} MB.`);
-    photoInput.value = "";
-    fileName.textContent = "Ningún archivo seleccionado";
-    preview.hidden = true;
-    return;
-  }
-
-  hideError();
-  fileName.textContent = file.name;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    preview.src = e.target.result;
-    preview.hidden = false;
-  };
-  reader.readAsDataURL(file);
-});
-
-// --- Envío del formulario ---
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  hideError();
-
-  submitBtn.disabled = true;
-  submitLabel.textContent = "Enviando...";
-
-  const formData = new FormData(form);
-
-  try {
-    const response = await fetch(`https://formsubmit.co/ajax/${SUPPORT_EMAIL}`, {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Respuesta no válida del servidor");
+    if (!file) {
+      fileName.textContent = "Ningún archivo seleccionado";
+      preview.hidden = true;
+      preview.removeAttribute("src");
+      return;
     }
 
-    form.hidden = true;
-    successState.hidden = false;
-  } catch (err) {
-    showError("No pudimos enviar tu pedido. Revisa tu conexión e inténtalo de nuevo.");
-    submitBtn.disabled = false;
-    submitLabel.textContent = "Enviar pedido a cocina";
-  }
-});
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      showError(`La imagen pesa demasiado. El límite es ${MAX_FILE_SIZE_MB} MB.`);
+      photoInput.value = "";
+      fileName.textContent = "Ningún archivo seleccionado";
+      preview.hidden = true;
+      return;
+    }
 
-resetButton.addEventListener("click", () => {
-  form.reset();
-  fileName.textContent = "Ningún archivo seleccionado";
-  preview.hidden = true;
-  charCount.textContent = "0 / 800";
-  submitBtn.disabled = false;
-  submitLabel.textContent = "Enviar pedido a cocina";
+    hideError();
+    fileName.textContent = file.name;
 
-  const newNumber = generateTicketNumber();
-  ticketNumberEl.textContent = `Pedido #${newNumber}`;
-  successNumberEl.textContent = `#${newNumber}`;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.src = e.target.result;
+      preview.hidden = false;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-  successState.hidden = true;
-  form.hidden = false;
-});
+// --- Envío del formulario ---
+// Ojo: aquí NO se usa fetch/AJAX ni preventDefault sobre envíos válidos.
+// El formulario se envía de forma nativa (multipart real) para que
+// el archivo adjunto llegue correctamente a FormSubmit.
+if (form) {
+  form.addEventListener("submit", (event) => {
+    const file = photoInput && photoInput.files[0];
+
+    if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      event.preventDefault();
+      showError(`La imagen pesa demasiado. El límite es ${MAX_FILE_SIZE_MB} MB.`);
+      return;
+    }
+
+    hideError();
+    submitBtn.disabled = true;
+    submitLabel.textContent = "Enviando...";
+    // No se llama a event.preventDefault(): el navegador continúa
+    // el envío normal del formulario hacia FormSubmit.
+  });
+}
 
 function showError(message) {
   errorState.textContent = message;

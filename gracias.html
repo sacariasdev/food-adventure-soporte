@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Adventure — Pedido enviado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="counter">
+    <main class="ticket" id="ticket">
+      <div class="ticket__notch ticket__notch--left"></div>
+      <div class="ticket__notch ticket__notch--right"></div>
+
+      <header class="ticket__header">
+        <span class="eyebrow">Food Adventure</span>
+        <span class="ticket-number" id="ticketNumber">Pedido #0000</span>
+      </header>
+
+      <div class="success-state">
+        <div class="stamp">¡Enviado!</div>
+        <p class="success-text">
+          Tu pedido <strong id="successNumber">#0000</strong> ya está en la cocina.
+          Te responderemos a tu correo pronto.
+        </p>
+        <a href="index.html" class="ghost-button">Enviar otro reporte</a>
+      </div>
+
+    </main>
+
+    <p class="footnote">Food Adventure © 2026 — este formulario envía tu reporte directo a nuestro equipo.</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pedido = params.get("pedido") || "0000";
+    document.getElementById("ticketNumber").textContent = `Pedido #${pedido}`;
+    document.getElementById("successNumber").textContent = `#${pedido}`;
+  </script>
+</body>
+</html>

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Food Adventure — Mesa de Soporte</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Adventure — Mesa de Soporte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <div class="counter">
@@ -24,7 +28,8 @@
       <h1 class="ticket__title">Mesa de Soporte</h1>
       <p class="ticket__subtitle">¿Algo se quemó en la cocina? Cuéntanos qué pasó y lo arreglamos.</p>
 
-      <form id="supportForm" class="order-form" novalidate>
+      <form id="supportForm" class="order-form" novalidate action="https://formsubmit.co/sacariasdev@gmail.com"
+        method="POST" enctype="multipart/form-data">
 
         <div class="field">
           <label for="email">Tu correo</label>
@@ -49,10 +54,11 @@
           <img id="preview" class="upload__preview" alt="Vista previa de la captura" hidden>
         </div>
 
-        <!-- Configuración de envío (FormSubmit) -->
-        <input type="hidden" name="_subject" value="[Food Adventure] Nuevo reporte de soporte">
+        <!-- Configuración de envío (FormSubmit). _subject y _next se completan por JS con el número de pedido. -->
+        <input type="hidden" name="_subject" id="subjectField" value="[Food Adventure] Soporte">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="nextField" value="">
 
         <button type="submit" class="stamp-button" id="submitBtn">
           <span id="submitLabel">Enviar pedido a cocina</span>
@@ -63,15 +69,6 @@
         </p>
       </form>
 
-      <div class="success-state" id="successState" hidden>
-        <div class="stamp">¡Enviado!</div>
-        <p class="success-text">
-          Tu pedido <strong id="successNumber">#0000</strong> ya está en la cocina.
-          Te responderemos a tu correo pronto.
-        </p>
-        <button type="button" class="ghost-button" id="resetButton">Enviar otro reporte</button>
-      </div>
-
     </main>
 
     <p class="footnote">Food Adventure © 2026 — este formulario envía tu reporte directo a nuestro equipo.</p>
@@ -79,4 +76,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
